@@ -1,0 +1,98 @@
+﻿<Window x:Class="ProForm.TrainerAttendance"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProForm"
+        mc:Ignorable="d"
+        Title="Тренер: Окно Посещаемости" 
+        Height="720"
+        Width="1280"
+        Background="#052F43"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        Icon="/icons/program_icon.png">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <DataGrid x:Name="TrainerAttendanceTable"
+                  Grid.Row="1"
+                  Grid.ColumnSpan="3"
+                  Grid.RowSpan="8"
+                  Background="#264F62"
+                  Foreground="White"
+                  IsReadOnly="True"
+                  CanUserReorderColumns="False" 
+                  CanUserAddRows="False" 
+                  CanUserDeleteRows="False" 
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Фамилия Тренера" Binding="{Binding Trainers.TrainerSurname}"/>
+                <DataGridTextColumn Header="Имя Тренера" Binding="{Binding Trainers.TrainerName}"/>
+                <DataGridTextColumn Header="Отчество Тренера" Binding="{Binding Trainers.TrainerMiddleName}"/>
+                <DataGridTextColumn Header="Количество Посещаемых" Binding="{Binding GroupTrainingRecordedClients}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button x:Name="ScheduleBtn"
+                Grid.Row="1"
+                Grid.Column="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Height="40"
+                Width="250"
+                Content="Расписание"
+                FontSize="20"
+                BorderBrush="White"
+                Background="#264F62"
+                BorderThickness="2"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Click="ScheduleBtn_Click"/>
+
+        <Button x:Name="ExitBtn"
+                Grid.Row="10"
+                Grid.Column="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Height="40"
+                Width="250"
+                Content="Выйти"
+                FontSize="20"
+                BorderBrush="White"
+                Background="#622626"
+                BorderThickness="2"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Click="ExitBtn_Click"/>
+
+        <!--В TextBlock: Требуется подтягивать из БД фамилия и имя тренера-->
+
+        <TextBlock x:Name="TrainerTitle"
+                   Foreground="White"
+                   FontSize="20"
+                   Text="Посещаемость" 
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Grid.ColumnSpan="4"/>
+    </Grid>
+</Window>

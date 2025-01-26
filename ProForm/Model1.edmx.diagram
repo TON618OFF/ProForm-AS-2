@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="51ccf9edc8fc4fd58014d4c880858c8b" Name="Diagram1">
+        <EntityTypeShape EntityType="ProFormModel.AdditionalServices" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProFormModel.Clients" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProFormModel.GroupTraining" Width="1.5" PointX="8.25" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProFormModel.PaymentMethods" Width="1.5" PointX="0.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProFormModel.Payments" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProFormModel.Roles" Width="1.5" PointX="8.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProFormModel.Specializations" Width="1.5" PointX="3.75" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProFormModel.Subscriptions" Width="1.5" PointX="6" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProFormModel.SubscriptionStatuses" Width="1.5" PointX="3.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProFormModel.Trainers" Width="1.5" PointX="6" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProFormModel.TrainerSchedules" Width="1.5" PointX="8.25" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProFormModel.TypeSubscription" Width="1.5" PointX="1.5" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProFormModel.Users" Width="1.5" PointX="11" PointY="2.75" IsExpanded="true" />
+        <AssociationConnector Association="ProFormModel.FK__Payments__Paymen__71D1E811" ManuallyRouted="false" />
+        <AssociationConnector Association="ProFormModel.FK__Subscript__Subsc__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="ProFormModel.FK__Clients__ClientS__693CA210" ManuallyRouted="false" />
+        <AssociationConnector Association="ProFormModel.FK__Payments__Paymen__6EF57B66" ManuallyRouted="false" />
+        <AssociationConnector Association="ProFormModel.FK__GroupTrai__Group__571DF1D5" ManuallyRouted="false" />
+        <AssociationConnector Association="ProFormModel.FK__Payments__Paymen__6FE99F9F" ManuallyRouted="false" />
+        <AssociationConnector Association="ProFormModel.FK__Payments__Paymen__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="ProFormModel.FK__Users__Role_ID__787EE5A0" ManuallyRouted="false" />
+        <AssociationConnector Association="ProFormModel.FK__Trainers__Traine__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="ProFormModel.FK__Subscript__Subsc__6477ECF3" ManuallyRouted="false" />
+        <AssociationConnector Association="ProFormModel.FK__Subscript__TypeS__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="ProFormModel.FK__TrainerSc__Train__5441852A" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

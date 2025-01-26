@@ -1,0 +1,87 @@
+﻿<Window x:Class="ProForm.Auth"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProForm"
+        mc:Ignorable="d"
+        Title="ProForm: Авторизация" 
+        Height="450" 
+        Width="600"
+        Background="#052F43"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        Icon="/icons/program_icon.png">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="AuthTitle" 
+                   Text="АВТОРИЗАЦИЯ" 
+                   Foreground="White" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   FontSize="28"
+                   Grid.Column="1"
+                   FontWeight="Bold"/>
+        
+        <TextBox x:Name="AuthLogin"
+                 materialDesign:HintAssist.Hint="Логин"
+                 Background="#264F62"
+                 Grid.Row="1"
+                 Grid.Column="1"
+                 Width="320"
+                 Height="52"
+                 Padding="15"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Center"
+                 Foreground="White"
+                 FontSize="15"
+                 materialDesign:TextFieldAssist.HasClearButton="True"
+                 KeyDown="AuthLogin_KeyDown"/>
+
+        <PasswordBox x:Name="AuthPassword"
+                 materialDesign:HintAssist.Hint="Пароль"
+                 Grid.Column="1"
+                 Grid.Row="2"
+                 Background="#264F62"
+                 Foreground="White"
+                 FontSize="15"
+                 Width="320"
+                 Height="52"
+                 Padding="15"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Center"
+                 materialDesign:TextFieldAssist.HasClearButton="True"
+                 KeyDown="AuthPassword_KeyDown"/>
+
+        <Button x:Name="AuthEnterBtn"
+                Content="Авторизоваться"
+                Background="#1849c7"
+                Grid.Row="3"
+                Grid.Column="1"
+                Width="200"
+                Height="50"
+                Click="AuthEnterBtn_Click"/>
+
+        <Button x:Name="AuthExitBtn"
+                Content="Выйти"
+                Background="#c4002e"
+                Grid.Row="4"
+                Grid.Column="1"
+                Width="200"
+                Height="50"
+                Click="AuthExitBtn_Click"/>
+    </Grid>
+</Window>

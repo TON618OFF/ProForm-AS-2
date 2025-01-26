@@ -1,0 +1,265 @@
+﻿<Window x:Class="ProForm.AdminMain"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProForm"
+        mc:Ignorable="d"
+        Title="Администратор: Главное Окно" 
+        Height="720"
+        Width="1280"
+        Background="#052F43"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        Icon="/icons/program_icon.png" >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <DataGrid x:Name="SubscriptionTable"
+                  Grid.ColumnSpan="3"
+                  Grid.RowSpan="8"
+                  Background="#264F62"
+                  Foreground="White"
+                  IsReadOnly="True"
+                  CanUserReorderColumns="False" 
+                  CanUserAddRows="False" 
+                  CanUserDeleteRows="False" 
+                  AutoGenerateColumns="False"
+                  SelectionChanged="SubscriptionTable_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Тип Абонемента" Binding="{Binding TypeSubscription.TypeTitle}"/>
+                <DataGridTextColumn Header="Стоимость Абонемента" Binding="{Binding SubscriptionPrice}"/>
+                <DataGridTextColumn Header="Доступные Услуги Абонемента" Binding="{Binding AdditionalServices.AdditionalServiceTitle}"/>
+                <DataGridTextColumn Header="Скидка Абонемента" Binding="{Binding Discount}"/>
+                <DataGridTextColumn Header="Период Действия Абонемента" Binding="{Binding SubscriptionPeriodExpired}"/>
+                <DataGridTextColumn Header="Статус Абонемента" Binding="{Binding SubscriptionStatuses.SubscriptionStatuseType}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <ComboBox x:Name="SubscriptionTypeID"
+                  Grid.Column="3"
+                  Background="#264F62"
+                  Foreground="Black"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Center"
+                  Width="250"
+                  Height="40"
+                  Padding="10"
+                  materialDesign:HintAssist.Hint="Тип Абонемента"/>
+
+        <TextBox x:Name="SubscriptionPaymentAmount"
+                  Grid.Column="3"
+                  Grid.Row="1"
+                  Background="#264F62"
+                  Foreground="Black"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Center"
+                  Width="250"
+                  Height="40"
+                  Padding="10"
+                  materialDesign:HintAssist.Hint="Стоимость Абонемента"/>
+
+        <TextBox x:Name="SubscriptionAvailableServices"
+                  Grid.Column="3"
+                  Grid.Row="2"
+                  Background="#264F62"
+                  Foreground="Black"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Center"
+                  Width="250"
+                  Height="40"
+                  Padding="10"
+                  materialDesign:HintAssist.Hint="Доступные Услуги Абонемента"/>
+
+        <TextBox x:Name="SubscriptionPaymentDiscount"
+                  Grid.Column="3"
+                  Grid.Row="3"
+                  Background="#264F62"
+                  Foreground="Black"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Center"
+                  Width="250"
+                  Height="40"
+                  Padding="10"
+                  materialDesign:HintAssist.Hint="Скидка Абонемента"/>
+
+        <TextBox x:Name="SubscriptionActualDate"
+                  Grid.Column="3"
+                  Grid.Row="4"
+                  Background="#264F62"
+                  Foreground="Black"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Center"
+                  Width="250"
+                  Height="40"
+                  Padding="10"
+                  materialDesign:HintAssist.Hint="Период Действия Абонемента"/>
+
+        <ComboBox x:Name="SubscriptionStatusID"
+                  Grid.Column="3"
+                  Grid.Row="5"
+                  Background="#264F62"
+                  Foreground="Black"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Center"
+                  Width="250"
+                  Height="40"
+                  Padding="10"
+                  materialDesign:HintAssist.Hint="Статус Абонемента"/>
+
+        <Button x:Name="ExitBtn"
+                Grid.Row="10"
+                Grid.Column="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Height="40"
+                Width="250"
+                Content="Выйти"
+                FontSize="20"
+                BorderBrush="White"
+                Background="#622626"
+                BorderThickness="2"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Click="ExitBtn_Click"/>
+
+        <Button x:Name="CreateBtn"
+                Grid.Row="8"
+                Grid.Column="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Height="40"
+                Width="175"
+                Content="Создать"
+                FontSize="20"
+                BorderBrush="White"
+                Background="#264F62"
+                BorderThickness="2"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+        <Button x:Name="DeleteBtn"
+                Grid.Row="9"
+                Grid.Column="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Height="40"
+                Width="175"
+                Content="Удалить"
+                FontSize="20"
+                BorderBrush="White"
+                Background="#264F62"
+                BorderThickness="2"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+        <Button x:Name="EditBtn"
+                Grid.Row="10"
+                Grid.Column="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Height="40"
+                Width="175"
+                Content="Изменить"
+                FontSize="20"
+                BorderBrush="White"
+                Background="#264F62"
+                BorderThickness="2"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+
+        <Button x:Name="ClientBtn"
+                Grid.Row="8"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Height="40"
+                Width="175"
+                Content="Клиенты"
+                FontSize="20"
+                BorderBrush="White"
+                Background="#264F62"
+                BorderThickness="2"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Click="ClientBtn_Click"/>
+
+        <Button x:Name="ScheduleBtn"
+                Grid.Row="9"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Height="40"
+                Width="175"
+                Content="Расписание"
+                FontSize="20"
+                BorderBrush="White"
+                Background="#264F62"
+                BorderThickness="2"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Click="ScheduleBtn_Click"/>
+
+        <Button x:Name="PaymentsBtn"
+                Grid.Row="10"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Height="40"
+                Width="175"
+                Content="Оплаты"
+                FontSize="20"
+                BorderBrush="White"
+                Background="#264F62"
+                BorderThickness="2"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Click="PaymentsBtn_Click"/>
+
+        <ComboBox x:Name="SubscriptionTypeComboBox"
+                  Background="#B3A8A8"
+                  Foreground="Black"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Center"
+                  Height="40"
+                  Width="350"
+                  Grid.Row="9"
+                  materialDesign:HintAssist.Hint="Тип Абонемента:"
+                  Padding="10"
+                  FontSize="15"/>
+
+        <Button x:Name="FilterBtn"
+                Grid.Row="10"
+                Grid.Column="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Height="40"
+                Width="175"
+                Content="Фильтр"
+                FontSize="20"
+                BorderBrush="White"
+                Background="#264F62"
+                BorderThickness="2"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+    </Grid>
+</Window>
