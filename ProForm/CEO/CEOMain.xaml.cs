@@ -83,7 +83,6 @@ namespace ProForm
                     PaymentAdditionalService_ID = (PaymentsPaymentServiceID.SelectedItem as AdditionalServices)?.ID_AdditionalService
                 };
 
-                // Проверка заполненности обязательных полей
                 if (newPayment.PaymentClient_ID == 0 ||
                     string.IsNullOrEmpty(newPayment.PaymentDate) ||
                     newPayment.PaymentMethod_ID == 0 ||
@@ -93,11 +92,9 @@ namespace ProForm
                     return;
                 }
 
-                // Добавление нового платежа
                 context.Payments.Add(newPayment);
                 context.SaveChanges();
 
-                // Обновление таблицы
                 PaymentsTable.ItemsSource = context.Payments.ToList();
 
                 MessageBox.Show("Платеж успешно добавлен!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -113,7 +110,6 @@ namespace ProForm
         {
             try
             {
-                // Получаем выбранный элемент из таблицы
                 var selectedPayment = PaymentsTable.SelectedItem as Payments;
 
                 if (selectedPayment == null)
@@ -122,11 +118,9 @@ namespace ProForm
                     return;
                 }
 
-                // Удаляем выбранный платеж
                 context.Payments.Remove(selectedPayment);
                 context.SaveChanges();
 
-                // Обновляем таблицу
                 PaymentsTable.ItemsSource = context.Payments.ToList();
 
                 MessageBox.Show("Платеж успешно удалён!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -141,7 +135,6 @@ namespace ProForm
         {
             try
             {
-                // Получаем выбранный элемент из таблицы
                 var selectedPayment = PaymentsTable.SelectedItem as Payments;
 
                 if (selectedPayment == null)
@@ -150,7 +143,6 @@ namespace ProForm
                     return;
                 }
 
-                // Обновляем выбранный платеж
                 selectedPayment.PaymentClient_ID = (PaymentsClientID.SelectedItem as Clients)?.ID_Client ?? selectedPayment.PaymentClient_ID;
                 selectedPayment.PaymentDate = PaymentsPaymentDate.Text;
                 selectedPayment.PaymentAmount = decimal.Parse(PaymentsPaymentAmount.Text);
@@ -160,7 +152,6 @@ namespace ProForm
                 selectedPayment.PaymentSubscription_ID = (PaymentsPaymentMembershipID.SelectedItem as TypeSubscription)?.ID_TypeSubscription ?? selectedPayment.PaymentSubscription_ID;
                 selectedPayment.PaymentAdditionalService_ID = (PaymentsPaymentServiceID.SelectedItem as AdditionalServices)?.ID_AdditionalService ?? selectedPayment.PaymentAdditionalService_ID;
 
-                // Проверка заполненности обязательных полей
                 if (selectedPayment.PaymentClient_ID == 0 ||
                     string.IsNullOrEmpty(selectedPayment.PaymentDate) ||
                     selectedPayment.PaymentMethod_ID == 0 ||
@@ -170,10 +161,8 @@ namespace ProForm
                     return;
                 }
 
-                // Сохраняем изменения в базе данных
                 context.SaveChanges();
 
-                // Обновляем таблицу
                 PaymentsTable.ItemsSource = context.Payments.ToList();
 
                 MessageBox.Show("Платеж успешно обновлён!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);

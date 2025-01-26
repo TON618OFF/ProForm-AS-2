@@ -46,7 +46,7 @@
                   AutoGenerateColumns="False"
                   SelectionChanged="PaymentsTable_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Клиент" Binding="{Binding Clients.ClientFullName}" Width="*" />
+                <DataGridTextColumn Header="Клиент" Binding="{Binding Clients.ClientPhoneNumber}" Width="*" />
                 <DataGridTextColumn Header="Дата Оплаты" Binding="{Binding PaymentDate}" Width="*" />
                 <DataGridTextColumn Header="Стоимость Оплаты" Binding="{Binding PaymentAmount}" Width="*" />
                 <DataGridTextColumn Header="Метод Оплаты" Binding="{Binding PaymentMethods.PaymentMethodTitle}" Width="*" />
@@ -182,7 +182,8 @@
                 Background="#264F62"
                 BorderThickness="2"
                 HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"/>
+                VerticalContentAlignment="Center"
+                Click="CreateBtn_Click"/>
 
         <Button x:Name="DeleteBtn"
                 Grid.Row="9"
@@ -197,7 +198,8 @@
                 Background="#264F62"
                 BorderThickness="2"
                 HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"/>
+                VerticalContentAlignment="Center"
+                Click="DeleteBtn_Click"/>
 
         <Button x:Name="EditBtn"
                 Grid.Row="10"
@@ -212,7 +214,8 @@
                 Background="#264F62"
                 BorderThickness="2"
                 HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"/>
+                VerticalContentAlignment="Center"
+                Click="EditBtn_Click"/>
 
         <Button x:Name="SubscriptionBtn"
                 Grid.Row="8"
