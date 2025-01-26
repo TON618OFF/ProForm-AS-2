@@ -66,23 +66,19 @@ namespace ProForm
         {
             try
             {
-                // Проверка выбранного элемента для "Тип Абонемента"
                 if (SubscriptionTypeID.SelectedItem is TypeSubscription selectedType)
                 {
                     int typeId = selectedType.ID_TypeSubscription;
 
-                    // Проверка выбранного элемента для "Доступные Услуги"
                     if (SubscriptionAvailableServices.SelectedItem is AdditionalServices selectedService)
                     {
                         int servicesId = selectedService.ID_AdditionalService;
 
-                        // Преобразование других данных
                         decimal price = decimal.TryParse(SubscriptionPaymentAmount.Text, out decimal tempPrice) ? tempPrice : 0;
                         int? discount = int.TryParse(SubscriptionPaymentDiscount.Text, out int tempDiscount) ? (int?)tempDiscount : null;
                         string period = SubscriptionActualDate.Text;
                         int statusId = (SubscriptionStatusID.SelectedItem as SubscriptionStatuses)?.ID_SubscriptionStatus ?? 0;
 
-                        // Проверка обязательных полей
                         if (price <= 0)
                         {
                             MessageBox.Show("Поле 'Стоимость Абонемента' не заполнено или неверно!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -101,7 +97,6 @@ namespace ProForm
                             return;
                         }
 
-                        // Создание нового объекта абонемента
                         var newSubscription = new Subscriptions
                         {
                             TypeSubscription_ID = typeId,
@@ -112,11 +107,9 @@ namespace ProForm
                             SubscriptionStatus_ID = statusId
                         };
 
-                        // Добавление объекта в базу данных
                         context.Subscriptions.Add(newSubscription);
                         context.SaveChanges();
 
-                        // Обновление таблицы
                         SubscriptionTable.ItemsSource = context.Subscriptions.ToList();
 
                         MessageBox.Show("Абонемент успешно добавлен!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -143,7 +136,6 @@ namespace ProForm
             {
                 try
                 {
-                    // Проверка и обновление данных
                     if (SubscriptionTypeID.SelectedItem is TypeSubscription selectedType)
                         selectedSubscription.TypeSubscription_ID = selectedType.ID_TypeSubscription;
                     else
@@ -163,10 +155,8 @@ namespace ProForm
                     else
                         throw new Exception("Поле 'Статус Абонемента' не выбрано!");
 
-                    // Сохранение изменений в базе данных
                     context.SaveChanges();
 
-                    // Обновление таблицы
                     SubscriptionTable.ItemsSource = context.Subscriptions.ToList();
 
                     MessageBox.Show("Абонемент успешно обновлён!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -196,13 +186,10 @@ namespace ProForm
                 {
                     try
                     {
-                        // Удаление записи из контекста
                         context.Subscriptions.Remove(selectedSubscription);
 
-                        // Сохранение изменений в базе данных
                         context.SaveChanges();
 
-                        // Обновление таблицы
                         SubscriptionTable.ItemsSource = context.Subscriptions.ToList();
 
                         MessageBox.Show("Абонемент успешно удалён!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
