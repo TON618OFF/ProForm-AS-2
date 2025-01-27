@@ -249,7 +249,8 @@
                 Background="#264F62"
                 BorderThickness="2"
                 HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"/>
+                VerticalContentAlignment="Center"
+                Click="SaveReportBtn_Click"/>
 
         <ComboBox x:Name="ReportType"
                   Background="#B3A8A8"
@@ -261,7 +262,10 @@
                   Grid.Row="9"
                   materialDesign:HintAssist.Hint="Тип Отчёта:"
                   Padding="10"
-                  FontSize="15"/>
+                  FontSize="15">
+            <ComboBoxItem Content="Отчёт по Абонементам"/>
+            <ComboBoxItem Content="Отчёт по Клиентам"/>
+        </ComboBox>
 
         <Frame x:Name="DatePickersForIncomePeriod"
                Grid.Row="8">

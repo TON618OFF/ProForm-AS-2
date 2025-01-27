@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
@@ -171,6 +173,83 @@ namespace ProForm
             {
                 MessageBox.Show($"Ошибка при обновлении платежа: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void SaveReportBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+                {
+                    FileName = $"PaymentsReport_{DateTime.Now:yyyy-MM-dd}.pdf",
+                    Filter = "PDF Files (*.pdf)|*.pdf"
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    string fileName = saveFileDialog.FileName;
+
+                    PdfDocument document = new PdfDocument();
+                    document.Info.Title = "Отчёт о платежах";
+
+                    PdfPage page = document.AddPage();
+                    XGraphics gfx = XGraphics.FromPdfPage(page);
+
+                    XFont titleFont = new XFont("Arial", 16);
+                    XFont headerFont = new XFont("Arial", 12);
+                    XFont contentFont = new XFont("Arial", 10);
+
+                    gfx.DrawString("Отчёт о платежах", titleFont, XBrushes.Black, new XRect(10, 20, page.Width, 30), XStringFormats.Center);
+                    gfx.DrawString($"Дата создания: {DateTime.Now:dd.MM.yyyy}", contentFont, XBrushes.Black, new XRect(20, 50, page.Width - 40, 20));
+
+                    if (PaymentsTable.ItemsSource is IEnumerable<Payments> payments)
+                    {
+                        double startX = 20;
+                        double startY = 80;
+                        double rowHeight = 20;
+
+                        gfx.DrawString("Клиент", headerFont, XBrushes.Black, startX, startY);
+                        gfx.DrawString("Дата", headerFont, XBrushes.Black, startX + 120, startY);
+                        gfx.DrawString("Сумма", headerFont, XBrushes.Black, startX + 220, startY);
+                        gfx.DrawString("Метод оплаты", headerFont, XBrushes.Black, startX + 320, startY);
+                        gfx.DrawString("Абонемент", headerFont, XBrushes.Black, startX + 420, startY);
+
+                        startY += rowHeight;
+
+                        foreach (var payment in payments)
+                        {
+                            gfx.DrawString(payment.Clients?.ClientSurname ?? "N/A", contentFont, XBrushes.Black, startX, startY);
+                            gfx.DrawString(payment.PaymentDate ?? "N/A", contentFont, XBrushes.Black, startX + 120, startY);
+                            gfx.DrawString(payment.PaymentAmount.ToString("C"), contentFont, XBrushes.Black, startX + 220, startY);
+                            //gfx.DrawString(payment.PaymentMethods?.MethodTitle ?? "N/A", contentFont, XBrushes.Black, startX + 320, startY);
+                            //gfx.DrawString(payment.Subscriptions?.SubscriptionTitle ?? "N/A", contentFont, XBrushes.Black, startX + 420, startY);
+
+                            startY += rowHeight;
+
+                            if (startY > page.Height - 50)
+                            {
+                                page = document.AddPage();
+                                gfx = XGraphics.FromPdfPage(page);
+                                startY = 20;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Данные для отчёта отсутствуют.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
+                    document.Save(fileName);
+
+                    MessageBox.Show($"Отчёт успешно сохранён в файл: {fileName}", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при сохранении отчёта: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
     }
 }
