@@ -32,6 +32,8 @@ namespace ProForm
             SubscriptionStatusID.DisplayMemberPath = "SubscriptionStatuseType";
             SubscriptionAvailableServices.ItemsSource = context.AdditionalServices.ToList();
             SubscriptionAvailableServices.DisplayMemberPath = "AdditionalServiceTitle";
+            SubscriptionTypeComboBox.ItemsSource = context.TypeSubscription.ToList();
+            SubscriptionTypeComboBox.DisplayMemberPath = "TypeTitle";
 
         }
 
@@ -217,6 +219,30 @@ namespace ProForm
             {
                 MessageBox.Show("Выберите абонемент для изменения!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        private void FilterBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (SubscriptionTypeComboBox.SelectedItem is int selectedSubscriptionTypeId)
+                {
+                    var filteredClients = context.Clients
+                                                 .Where(Subscriptions => Subscriptions.ClientSubscriptionType_ID == selectedSubscriptionTypeId)
+                                                 .ToList();
+
+                    SubscriptionTable.ItemsSource = filteredClients;
+                }
+                else
+                {
+                    MessageBox.Show("Выберите тип абонемента для фильтрации.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при фильтрации данных: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
     }
 }

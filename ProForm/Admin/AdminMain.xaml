@@ -263,6 +263,7 @@
                 Background="#264F62"
                 BorderThickness="2"
                 HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"/>
+                VerticalContentAlignment="Center"
+                Click="FilterBtn_Click"/>
     </Grid>
 </Window>
