@@ -177,8 +177,7 @@ namespace ProForm
 
         private void SaveReportBtn_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
+
                 var saveFileDialog = new Microsoft.Win32.SaveFileDialog
                 {
                     FileName = $"PaymentsReport_{DateTime.Now:yyyy-MM-dd}.pdf",
@@ -199,10 +198,13 @@ namespace ProForm
                     XFont headerFont = new XFont("Arial", 12);
                     XFont contentFont = new XFont("Arial", 10);
 
-                    gfx.DrawString("Отчёт о платежах", titleFont, XBrushes.Black, new XRect(10, 20, page.Width, 30), XStringFormats.Center);
-                    gfx.DrawString($"Дата создания: {DateTime.Now:dd.MM.yyyy}", contentFont, XBrushes.Black, new XRect(20, 50, page.Width - 40, 20));
+                gfx.DrawString("Отчёт о платежах", titleFont, XBrushes.Black,
+                               new XRect(0, 20, page.Width, 0), XStringFormats.TopCenter);
 
-                    if (PaymentsTable.ItemsSource is IEnumerable<Payments> payments)
+                gfx.DrawString($"Дата создания: {DateTime.Now:dd.MM.yyyy}", contentFont, XBrushes.Black,
+                               new XRect(20, 50, page.Width - 40, 0), XStringFormats.TopLeft);
+
+                if (PaymentsTable.ItemsSource is IEnumerable<Payments> payments)
                     {
                         double startX = 20;
                         double startY = 80;
@@ -221,10 +223,10 @@ namespace ProForm
                             gfx.DrawString(payment.Clients?.ClientSurname ?? "N/A", contentFont, XBrushes.Black, startX, startY);
                             gfx.DrawString(payment.PaymentDate ?? "N/A", contentFont, XBrushes.Black, startX + 120, startY);
                             gfx.DrawString(payment.PaymentAmount.ToString("C"), contentFont, XBrushes.Black, startX + 220, startY);
-                            //gfx.DrawString(payment.PaymentMethods?.MethodTitle ?? "N/A", contentFont, XBrushes.Black, startX + 320, startY);
-                            //gfx.DrawString(payment.Subscriptions?.SubscriptionTitle ?? "N/A", contentFont, XBrushes.Black, startX + 420, startY);
+                            gfx.DrawString(payment.PaymentMethods?.PaymentMethodTitle ?? "N/A", contentFont, XBrushes.Black, startX + 320, startY);
+                            gfx.DrawString(payment.Subscriptions?.TypeSubscription?.TypeTitle ?? "N/A", contentFont, XBrushes.Black, startX + 420, startY);
 
-                            startY += rowHeight;
+                        startY += rowHeight;
 
                             if (startY > page.Height - 50)
                             {
@@ -244,11 +246,8 @@ namespace ProForm
 
                     MessageBox.Show($"Отчёт успешно сохранён в файл: {fileName}", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при сохранении отчёта: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            
+
 
         }
     }
