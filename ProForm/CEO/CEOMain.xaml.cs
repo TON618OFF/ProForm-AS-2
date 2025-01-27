@@ -177,7 +177,8 @@ namespace ProForm
 
         private void SaveReportBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
                 var saveFileDialog = new Microsoft.Win32.SaveFileDialog
                 {
                     FileName = $"PaymentsReport_{DateTime.Now:yyyy-MM-dd}.pdf",
@@ -198,13 +199,13 @@ namespace ProForm
                     XFont headerFont = new XFont("Arial", 12);
                     XFont contentFont = new XFont("Arial", 10);
 
-                gfx.DrawString("Отчёт о платежах", titleFont, XBrushes.Black,
-                               new XRect(0, 20, page.Width, 0), XStringFormats.TopCenter);
+                    gfx.DrawString("Отчёт о платежах", titleFont, XBrushes.Black,
+                                   new XRect(0, 20, page.Width, 0), XStringFormats.TopCenter);
 
-                gfx.DrawString($"Дата создания: {DateTime.Now:dd.MM.yyyy}", contentFont, XBrushes.Black,
-                               new XRect(20, 50, page.Width - 40, 0), XStringFormats.TopLeft);
+                    gfx.DrawString($"Дата создания: {DateTime.Now:dd.MM.yyyy}", contentFont, XBrushes.Black,
+                                   new XRect(20, 50, page.Width - 40, 0), XStringFormats.TopLeft);
 
-                if (PaymentsTable.ItemsSource is IEnumerable<Payments> payments)
+                    if (PaymentsTable.ItemsSource is IEnumerable<Payments> payments)
                     {
                         double startX = 20;
                         double startY = 80;
@@ -226,7 +227,7 @@ namespace ProForm
                             gfx.DrawString(payment.PaymentMethods?.PaymentMethodTitle ?? "N/A", contentFont, XBrushes.Black, startX + 320, startY);
                             gfx.DrawString(payment.Subscriptions?.TypeSubscription?.TypeTitle ?? "N/A", contentFont, XBrushes.Black, startX + 420, startY);
 
-                        startY += rowHeight;
+                            startY += rowHeight;
 
                             if (startY > page.Height - 50)
                             {
@@ -246,7 +247,85 @@ namespace ProForm
 
                     MessageBox.Show($"Отчёт успешно сохранён в файл: {fileName}", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-            
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при сохранении отчёта: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void SaveReportTrainerScheduleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            // Загрузка данных из базы данных
+            List<TrainerSchedules> trainerSchedules = context.TrainerSchedules.ToList();
+
+            if (trainerSchedules == null || trainerSchedules.Count == 0)
+            {
+                MessageBox.Show("Нет данных для отчета.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            try
+            {
+                // Создаем новый PDF-документ
+                PdfDocument document = new PdfDocument();
+                document.Info.Title = "Отчет по расписанию тренеров";
+
+                // Добавляем страницу
+                PdfPage page = document.AddPage();
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+
+                // Шрифты
+                XFont titleFont = new XFont("Arial", 14);
+                XFont contentFont = new XFont("Arial", 10);
+
+                // Начальная позиция для текста
+                double startX = 50;
+                double startY = 50;
+                double lineHeight = 20;
+
+                // Заголовок
+                gfx.DrawString("Отчет по расписанию тренеров", titleFont, XBrushes.Black, startX, startY);
+                startY += lineHeight * 2;
+
+                // Шапка таблицы
+                gfx.DrawString("Тренер", contentFont, XBrushes.Black, startX, startY);
+                gfx.DrawString("Дата", contentFont, XBrushes.Black, startX + 200, startY);
+                gfx.DrawString("Начало работы", contentFont, XBrushes.Black, startX + 300, startY);
+                gfx.DrawString("Конец работы", contentFont, XBrushes.Black, startX + 400, startY);
+                startY += lineHeight;
+
+                // Данные таблицы
+                foreach (var schedule in trainerSchedules)
+                {
+                    // Проверка на переполнение страницы
+                    if (startY + lineHeight > page.Height - 50)
+                    {
+                        page = document.AddPage();
+                        gfx = XGraphics.FromPdfPage(page);
+                        startY = 50;
+                    }
+
+                    // Заполнение данных
+                    gfx.DrawString(schedule.Trainers?.TrainerSurname ?? "N/A", contentFont, XBrushes.Black, startX, startY);
+                    gfx.DrawString(schedule.WorkDate, contentFont, XBrushes.Black, startX + 200, startY);
+                    gfx.DrawString(schedule.StartTime, contentFont, XBrushes.Black, startX + 300, startY);
+                    gfx.DrawString(schedule.EndTime, contentFont, XBrushes.Black, startX + 400, startY);
+                    startY += lineHeight;
+                }
+
+                // Сохранение документа
+                string filePath = "C:\\Users\\Вячеслав\\OneDrive\\Desktop\\TrainerScheduleReport.pdf";
+                document.Save(filePath);
+
+                // Уведомление об успехе
+                MessageBox.Show($"Отчет сохранен: {filePath}", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок
+                MessageBox.Show($"Ошибка при сохранении отчета: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
 
         }
