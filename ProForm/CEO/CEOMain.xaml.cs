@@ -1,4 +1,5 @@
-﻿using PdfSharp.Drawing;
+﻿using Microsoft.Win32;
+using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using System;
 using System.Collections.Generic;
@@ -256,7 +257,6 @@ namespace ProForm
 
         private void SaveReportTrainerScheduleBtn_Click(object sender, RoutedEventArgs e)
         {
-            // Загрузка данных из базы данных
             List<TrainerSchedules> trainerSchedules = context.TrainerSchedules.ToList();
 
             if (trainerSchedules == null || trainerSchedules.Count == 0)
@@ -265,69 +265,66 @@ namespace ProForm
                 return;
             }
 
-            try
+            SaveFileDialog saveFileDialog = new SaveFileDialog
             {
-                // Создаем новый PDF-документ
-                PdfDocument document = new PdfDocument();
-                document.Info.Title = "Отчет по расписанию тренеров";
+                Title = "Сохранить отчет",
+                Filter = "PDF файлы (*.pdf)|*.pdf",
+                FileName = "TrainerScheduleReport.pdf"
+            };
 
-                // Добавляем страницу
-                PdfPage page = document.AddPage();
-                XGraphics gfx = XGraphics.FromPdfPage(page);
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string filePath = saveFileDialog.FileName;
 
-                // Шрифты
-                XFont titleFont = new XFont("Arial", 14);
-                XFont contentFont = new XFont("Arial", 10);
-
-                // Начальная позиция для текста
-                double startX = 50;
-                double startY = 50;
-                double lineHeight = 20;
-
-                // Заголовок
-                gfx.DrawString("Отчет по расписанию тренеров", titleFont, XBrushes.Black, startX, startY);
-                startY += lineHeight * 2;
-
-                // Шапка таблицы
-                gfx.DrawString("Тренер", contentFont, XBrushes.Black, startX, startY);
-                gfx.DrawString("Дата", contentFont, XBrushes.Black, startX + 200, startY);
-                gfx.DrawString("Начало работы", contentFont, XBrushes.Black, startX + 300, startY);
-                gfx.DrawString("Конец работы", contentFont, XBrushes.Black, startX + 400, startY);
-                startY += lineHeight;
-
-                // Данные таблицы
-                foreach (var schedule in trainerSchedules)
+                try
                 {
-                    // Проверка на переполнение страницы
-                    if (startY + lineHeight > page.Height - 50)
+                    PdfDocument document = new PdfDocument();
+                    document.Info.Title = "Отчет по расписанию тренеров";
+
+                    PdfPage page = document.AddPage();
+                    XGraphics gfx = XGraphics.FromPdfPage(page);
+
+                    XFont titleFont = new XFont("Arial", 14);
+                    XFont contentFont = new XFont("Arial", 10);
+
+                    double startX = 50;
+                    double startY = 50;
+                    double lineHeight = 20;
+
+                    gfx.DrawString("Отчет по расписанию тренеров", titleFont, XBrushes.Black, startX, startY);
+                    startY += lineHeight * 2;
+
+                    gfx.DrawString("Тренер", contentFont, XBrushes.Black, startX, startY);
+                    gfx.DrawString("Дата", contentFont, XBrushes.Black, startX + 200, startY);
+                    gfx.DrawString("Начало работы", contentFont, XBrushes.Black, startX + 300, startY);
+                    gfx.DrawString("Конец работы", contentFont, XBrushes.Black, startX + 400, startY);
+                    startY += lineHeight;
+
+                    foreach (var schedule in trainerSchedules)
                     {
-                        page = document.AddPage();
-                        gfx = XGraphics.FromPdfPage(page);
-                        startY = 50;
+                        if (startY + lineHeight > page.Height - 50)
+                        {
+                            page = document.AddPage();
+                            gfx = XGraphics.FromPdfPage(page);
+                            startY = 50;
+                        }
+
+                        gfx.DrawString(schedule.Trainers?.TrainerSurname ?? "N/A", contentFont, XBrushes.Black, startX, startY);
+                        gfx.DrawString(schedule.WorkDate, contentFont, XBrushes.Black, startX + 200, startY);
+                        gfx.DrawString(schedule.StartTime, contentFont, XBrushes.Black, startX + 300, startY);
+                        gfx.DrawString(schedule.EndTime, contentFont, XBrushes.Black, startX + 400, startY);
+                        startY += lineHeight;
                     }
 
-                    // Заполнение данных
-                    gfx.DrawString(schedule.Trainers?.TrainerSurname ?? "N/A", contentFont, XBrushes.Black, startX, startY);
-                    gfx.DrawString(schedule.WorkDate, contentFont, XBrushes.Black, startX + 200, startY);
-                    gfx.DrawString(schedule.StartTime, contentFont, XBrushes.Black, startX + 300, startY);
-                    gfx.DrawString(schedule.EndTime, contentFont, XBrushes.Black, startX + 400, startY);
-                    startY += lineHeight;
+                    document.Save(filePath);
+
+                    MessageBox.Show($"Отчет сохранен: {filePath}", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-
-                // Сохранение документа
-                string filePath = "C:\\Users\\Вячеслав\\OneDrive\\Desktop\\TrainerScheduleReport.pdf";
-                document.Save(filePath);
-
-                // Уведомление об успехе
-                MessageBox.Show($"Отчет сохранен: {filePath}", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при сохранении отчета: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            catch (Exception ex)
-            {
-                // Обработка ошибок
-                MessageBox.Show($"Ошибка при сохранении отчета: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-
         }
     }
 }
