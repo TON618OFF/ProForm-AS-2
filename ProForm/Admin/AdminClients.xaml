@@ -32,11 +32,14 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <DataGrid x:Name="ClientsTable"
                   Grid.ColumnSpan="3"
-                  Grid.RowSpan="8"
+                  Grid.RowSpan="11"
                   Background="#264F62"
                   Foreground="White"
                   IsReadOnly="True"
@@ -52,7 +55,9 @@
                 <DataGridTextColumn Header="Дата Рождения" Binding="{Binding ClientBirthdayDate}" />
                 <DataGridTextColumn Header="Телефон" Binding="{Binding ClientPhoneNumber}" />
                 <DataGridTextColumn Header="Почта" Binding="{Binding ClientEmail}" />
+                <DataGridTextColumn Header="Тип Абонемента" Binding="{Binding TypeSubscription.TypeTitle}" />
                 <DataGridTextColumn Header="Дата Оплаты Абонемента" Binding="{Binding ClientSubscriptionStartDate}" />
+                <DataGridTextColumn Header="Дата Окончания Абонемента" Binding="{Binding ClientSubscriptionEndDate}" />
             </DataGrid.Columns>
         </DataGrid>
 
@@ -128,9 +133,21 @@
                   Padding="10"
                   materialDesign:HintAssist.Hint="Почта Клиента"/>
 
-        <TextBox x:Name="ClientPurchaseDate"
+        <ComboBox x:Name="ClientSubscriptionType"
                   Grid.Column="3"
                   Grid.Row="6"
+                  Background="#264F62"
+                  Foreground="Black"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Center"
+                  Width="250"
+                  Height="40"
+                  Padding="10"
+                  materialDesign:HintAssist.Hint="Тип Абонемента"/>
+
+        <TextBox x:Name="ClientPurchaseDate"
+                  Grid.Column="3"
+                  Grid.Row="7"
                   Background="#264F62"
                   Foreground="White"
                   VerticalAlignment="Center"
@@ -140,8 +157,20 @@
                   Padding="10"
                   materialDesign:HintAssist.Hint="Дата Оплаты"/>
 
+        <TextBox x:Name="ClientExpiredDate"
+                  Grid.Column="3"
+                  Grid.Row="8"
+                  Background="#264F62"
+                  Foreground="White"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Center"
+                  Width="250"
+                  Height="40"
+                  Padding="10"
+                  materialDesign:HintAssist.Hint="Дата Конца Абонемента"/>
+
         <Button x:Name="ExitBtn"
-                Grid.Row="10"
+                Grid.Row="12"
                 Grid.Column="3"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -157,7 +186,7 @@
                 Click="ExitBtn_Click"/>
 
         <Button x:Name="CreateBtn"
-                Grid.Row="8"
+                Grid.Row="11"
                 Grid.Column="2"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -169,10 +198,11 @@
                 Background="#264F62"
                 BorderThickness="2"
                 HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"/>
+                VerticalContentAlignment="Center"
+                Click="CreateBtn_Click"/>
 
         <Button x:Name="DeleteBtn"
-                Grid.Row="9"
+                Grid.Row="12"
                 Grid.Column="2"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -184,10 +214,11 @@
                 Background="#264F62"
                 BorderThickness="2"
                 HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"/>
+                VerticalContentAlignment="Center"
+                Click="DeleteBtn_Click"/>
 
         <Button x:Name="EditBtn"
-                Grid.Row="10"
+                Grid.Row="13"
                 Grid.Column="2"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -199,10 +230,11 @@
                 Background="#264F62"
                 BorderThickness="2"
                 HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"/>
+                VerticalContentAlignment="Center"
+                Click="EditBtn_Click"/>
 
         <Button x:Name="SubscriptionBtn"
-                Grid.Row="8"
+                Grid.Row="11"
                 Grid.Column="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -218,7 +250,7 @@
                 Click="SubscriptionBtn_Click"/>
 
         <Button x:Name="ScheduleBtn"
-                Grid.Row="9"
+                Grid.Row="12"
                 Grid.Column="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -234,7 +266,7 @@
                 Click="ScheduleBtn_Click"/>
 
         <Button x:Name="PaymentsBtn"
-                Grid.Row="10"
+                Grid.Row="13"
                 Grid.Column="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
