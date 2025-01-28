@@ -268,6 +268,22 @@
                 VerticalContentAlignment="Center"
                 Click="SaveReportTrainerScheduleBtn_Click"/>
 
+        <Button x:Name="SaveReportGroupTrainingsBtn"
+                Grid.Row="10"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Height="40"
+                Width="175"
+                Content="Отчёт о Тренерах"
+                FontSize="16"
+                BorderBrush="White"
+                Background="#264F62"
+                BorderThickness="2"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Click="SaveReportGroupTrainingsBtn_Click"/>
+
         <Frame x:Name="DatePickersForIncomePeriod"
                Grid.Row="8">
             

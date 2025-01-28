@@ -326,5 +326,81 @@ namespace ProForm
                 }
             }
         }
+
+        private void SaveReportGroupTrainingsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            List<GroupTraining> groupTrainings = context.GroupTraining.ToList();
+
+            if (groupTrainings == null || groupTrainings.Count == 0)
+            {
+                MessageBox.Show("Нет данных для отчета.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Title = "Сохранить отчет",
+                Filter = "PDF файлы (*.pdf)|*.pdf",
+                FileName = "GroupTrainingReport.pdf"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string filePath = saveFileDialog.FileName;
+
+                try
+                {
+                    PdfDocument document = new PdfDocument();
+                    document.Info.Title = "Отчет по групповым занятиям";
+
+                    PdfPage page = document.AddPage();
+                    XGraphics gfx = XGraphics.FromPdfPage(page);
+
+                    XFont titleFont = new XFont("Arial", 14);
+                    XFont contentFont = new XFont("Arial", 10);
+
+                    double startX = 50;
+                    double startY = 50;
+                    double lineHeight = 20;
+
+                    gfx.DrawString("Отчет по групповым занятиям", titleFont, XBrushes.Black, startX, startY);
+                    startY += lineHeight * 2;
+
+                    gfx.DrawString("Название занятия", contentFont, XBrushes.Black, startX, startY);
+                    gfx.DrawString("Тренер", contentFont, XBrushes.Black, startX + 200, startY);
+                    gfx.DrawString("Дата", contentFont, XBrushes.Black, startX + 350, startY);
+                    gfx.DrawString("Время", contentFont, XBrushes.Black, startX + 450, startY);
+                    gfx.DrawString("Макс. участников", contentFont, XBrushes.Black, startX + 550, startY);
+                    gfx.DrawString("Записано участников", contentFont, XBrushes.Black, startX + 700, startY);
+                    startY += lineHeight;
+
+                    foreach (var training in groupTrainings)
+                    {
+                        if (startY + lineHeight > page.Height - 50)
+                        {
+                            page = document.AddPage();
+                            gfx = XGraphics.FromPdfPage(page);
+                            startY = 50;
+                        }
+
+                        gfx.DrawString(training.GroupTrainingTitle, contentFont, XBrushes.Black, startX, startY);
+                        gfx.DrawString(training.Trainers?.TrainerSurname ?? "N/A", contentFont, XBrushes.Black, startX + 200, startY);
+                        gfx.DrawString(training.GroupTrainingDate, contentFont, XBrushes.Black, startX + 350, startY);
+                        gfx.DrawString(training.GroupTrainingTime, contentFont, XBrushes.Black, startX + 450, startY);
+                        gfx.DrawString(training.GroupTrainingMaxClients.ToString(), contentFont, XBrushes.Black, startX + 550, startY);
+                        gfx.DrawString(training.GroupTrainingRecordedClients.ToString(), contentFont, XBrushes.Black, startX + 700, startY);
+                        startY += lineHeight;
+                    }
+
+                    document.Save(filePath);
+
+                    MessageBox.Show($"Отчет сохранен: {filePath}", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при сохранении отчета: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
     }
 }
